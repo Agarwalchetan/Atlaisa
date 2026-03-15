@@ -30,7 +30,7 @@ Thank you for your interest in contributing. This document covers how to set up 
 
 ```bash
 # 1. Fork the repo and clone your fork
-git clone https://github.com/<your-username>/Atlasia.git
+git clone https://github.com/AgarwalChetan/Atlasia.git
 cd Atlasia
 
 # 2. Install dependencies
