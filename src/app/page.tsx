@@ -314,8 +314,8 @@ export default function HomePage() {
             viewport={{ once: true }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
           >
-            {features.map(({ icon: Icon, title, description, color, href }) => (
-              <motion.div key={title} variants={itemVariants}>
+            {features.map(({ icon: Icon, title, description, color, href }, i) => (
+              <motion.div key={i} variants={itemVariants}>
                 <Link href={href}>
                   <Card className="group h-full hover:border-stone-700/80 hover:bg-stone-800/40 transition-colors duration-300 cursor-pointer">
                     <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${color} flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}>

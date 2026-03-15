@@ -56,17 +56,18 @@ export function Navbar({ selectedLanguage, onLanguageChange }: NavbarProps) {
   }, [autoDetected]);
 
   const t = useTranslations({
-    navMap: "Explore Map",
-    navTravelGuide: "Travel Guide",
+    navMap: "Map",
+    navTravelGuide: "Guide",
     navPhrases: "Phrases",
     navConversation: "Conversation",
     navEmergency: "Emergency",
-    navSurvivalCard: "Survival Card",
-    navFoodExplorer: "Food Explorer",
+    navSurvivalCard: "Survival",
+    navFoodExplorer: "Food",
     navChat: "Ask Atlasia",
     autoDetectBanner: "Interface language set to",
   });
 
+  // Regular nav links (all except Ask Atlasia)
   const navLinks = [
     { href: "/map", label: t.navMap, icon: Map },
     { href: "/travel-guide", label: t.navTravelGuide, icon: BookOpen },
@@ -75,7 +76,18 @@ export function Navbar({ selectedLanguage, onLanguageChange }: NavbarProps) {
     { href: "/emergency", label: t.navEmergency, icon: AlertTriangle },
     { href: "/survival-card", label: t.navSurvivalCard, icon: CreditCard },
     { href: "/food-explorer", label: t.navFoodExplorer, icon: Utensils },
-    { href: "/chat", label: t.navChat, icon: MessageCircle },
+  ];
+
+  // Mobile menu includes all links with full labels for readability
+  const mobileNavLinks = [
+    { href: "/map", label: "Explore Map", icon: Map },
+    { href: "/travel-guide", label: "Travel Guide", icon: BookOpen },
+    { href: "/phrases", label: "Phrases", icon: Languages },
+    { href: "/conversation", label: "Conversation", icon: Mic },
+    { href: "/emergency", label: "Emergency", icon: AlertTriangle },
+    { href: "/survival-card", label: "Survival Card", icon: CreditCard },
+    { href: "/food-explorer", label: "Food Explorer", icon: Utensils },
+    { href: "/chat", label: "Ask Atlasia", icon: MessageCircle },
   ];
 
   useEffect(() => {
@@ -112,54 +124,38 @@ export function Navbar({ selectedLanguage, onLanguageChange }: NavbarProps) {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-1">
-              {navLinks.slice(0, 5).map(({ href, label, icon: Icon }) => (
+            <div className="hidden md:flex items-center gap-0.5">
+              {navLinks.map(({ href, label, icon: Icon }) => (
                 <Link
                   key={href}
                   href={href}
                   className={cn(
-                    "flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium transition-colors duration-200",
+                    "flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-sm font-medium transition-colors duration-200",
                     pathname === href
                       ? "bg-amber-500/15 text-amber-400 border border-amber-500/25"
                       : "text-stone-400 hover:text-stone-100 hover:bg-stone-800/50"
                   )}
                 >
-                  <Icon size={14} />
+                  <Icon size={13} />
                   {label}
                 </Link>
               ))}
-              {/* More dropdown for new features */}
-              <div className="relative group">
-                <button className={cn(
-                  "flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium transition-colors duration-200",
-                  navLinks.slice(5).some(l => pathname === l.href)
-                    ? "bg-amber-500/15 text-amber-400 border border-amber-500/25"
-                    : "text-stone-400 hover:text-stone-100 hover:bg-stone-800/50"
-                )}>
-                  <Sparkles size={14} />
-                  More
-                  <ChevronDown size={12} className="text-stone-500" />
-                </button>
-                <div className="absolute right-0 top-full mt-1 w-48 rounded-2xl bg-stone-900/95 backdrop-blur-2xl border border-stone-800/80 shadow-2xl shadow-black/40 overflow-hidden z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 pointer-events-none group-hover:pointer-events-auto">
-                  <div className="p-2">
-                    {navLinks.slice(5).map(({ href, label, icon: Icon }) => (
-                      <Link
-                        key={href}
-                        href={href}
-                        className={cn(
-                          "flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-colors duration-150",
-                          pathname === href
-                            ? "bg-amber-500/15 text-amber-400"
-                            : "text-stone-400 hover:bg-stone-800/60 hover:text-stone-100"
-                        )}
-                      >
-                        <Icon size={14} />
-                        {label}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
+
+              {/* Ask Atlasia — CTA button */}
+              <Link
+                href="/chat"
+                className={cn(
+                  "relative ml-2 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-semibold transition-all duration-200",
+                  "bg-gradient-to-r from-teal-500 to-teal-600 text-white",
+                  "shadow-[0_0_12px_rgba(20,184,166,0.35)] hover:shadow-[0_0_20px_rgba(20,184,166,0.55)]",
+                  pathname === "/chat"
+                    ? "ring-1 ring-teal-400/60"
+                    : "hover:from-teal-400 hover:to-teal-500"
+                )}
+              >
+                <MessageCircle size={13} />
+                {t.navChat}
+              </Link>
             </div>
 
             {/* Language Selector + Mobile Menu */}
@@ -233,22 +229,27 @@ export function Navbar({ selectedLanguage, onLanguageChange }: NavbarProps) {
               className="md:hidden border-t border-stone-800/60 bg-stone-950/95 backdrop-blur-2xl overflow-hidden"
             >
               <div className="p-4 space-y-1">
-                {navLinks.map(({ href, label, icon: Icon }) => (
-                  <Link
-                    key={href}
-                    href={href}
-                    onClick={() => setMobileOpen(false)}
-                    className={cn(
-                      "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors duration-200",
-                      pathname === href
-                        ? "bg-amber-500/15 text-amber-400 border border-amber-500/25"
-                        : "text-stone-400 hover:text-stone-100 hover:bg-stone-800/50"
-                    )}
-                  >
-                    <Icon size={16} />
-                    {label}
-                  </Link>
-                ))}
+                {mobileNavLinks.map(({ href, label, icon: Icon }) => {
+                  const isChat = href === "/chat";
+                  return (
+                    <Link
+                      key={href}
+                      href={href}
+                      onClick={() => setMobileOpen(false)}
+                      className={cn(
+                        "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200",
+                        isChat
+                          ? "bg-gradient-to-r from-teal-500 to-teal-600 text-white shadow-[0_0_14px_rgba(20,184,166,0.3)] mt-2"
+                          : pathname === href
+                          ? "bg-amber-500/15 text-amber-400 border border-amber-500/25"
+                          : "text-stone-400 hover:text-stone-100 hover:bg-stone-800/50"
+                      )}
+                    >
+                      <Icon size={16} />
+                      {label}
+                    </Link>
+                  );
+                })}
               </div>
             </motion.div>
           )}
