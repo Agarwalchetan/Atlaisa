@@ -8,7 +8,6 @@ import {
   Globe,
   Map,
   BookOpen,
-  MessageSquare,
   Mic,
   AlertTriangle,
   Menu,
@@ -17,14 +16,15 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SUPPORTED_LANGUAGES } from "@/lib/utils";
+import { useTranslations } from "@/lib/use-translations";
 
-const navLinks = [
-  { href: "/map", label: "Explore Map", icon: Map },
-  { href: "/travel-guide", label: "Travel Guide", icon: BookOpen },
-  { href: "/phrases", label: "Phrases", icon: Languages },
-  { href: "/conversation", label: "Conversation", icon: Mic },
-  { href: "/emergency", label: "Emergency", icon: AlertTriangle },
-];
+const NAV_LINK_HREFS = [
+  { href: "/map", icon: Map },
+  { href: "/travel-guide", icon: BookOpen },
+  { href: "/phrases", icon: Languages },
+  { href: "/conversation", icon: Mic },
+  { href: "/emergency", icon: AlertTriangle },
+] as const;
 
 interface NavbarProps {
   selectedLanguage: string;
@@ -36,6 +36,22 @@ export function Navbar({ selectedLanguage, onLanguageChange }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+
+  const t = useTranslations({
+    navMap: "Explore Map",
+    navTravelGuide: "Travel Guide",
+    navPhrases: "Phrases",
+    navConversation: "Conversation",
+    navEmergency: "Emergency",
+  });
+
+  const navLinks = [
+    { href: "/map", label: t.navMap, icon: Map },
+    { href: "/travel-guide", label: t.navTravelGuide, icon: BookOpen },
+    { href: "/phrases", label: t.navPhrases, icon: Languages },
+    { href: "/conversation", label: t.navConversation, icon: Mic },
+    { href: "/emergency", label: t.navEmergency, icon: AlertTriangle },
+  ];
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);

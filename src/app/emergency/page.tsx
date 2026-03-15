@@ -21,6 +21,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select } from "@/components/ui/select";
 import { useLanguage } from "@/lib/language-context";
+import { useTranslations } from "@/lib/use-translations";
 import { SUPPORTED_LANGUAGES } from "@/lib/utils";
 
 interface EmergencyPhrase {
@@ -64,6 +65,27 @@ const EMERGENCY_CONTACTS: Record<string, { police: string; ambulance: string; fi
 
 export default function EmergencyPage() {
   const { language } = useLanguage();
+  const t = useTranslations({
+    pageTitle: "Emergency Assistant",
+    pageSubtitle: "Critical phrases & emergency contacts",
+    emergencyModeLabel: "Emergency Mode",
+    emergencyNumbersTitle: "Emergency Numbers",
+    translatePhrasesTitle: "Translate Emergency Phrases",
+    targetLangLabel: "Target Language",
+    translateAllBtn: "Translate All",
+    translatingBtn: "Translating...",
+    criticalEmergency: "Critical Emergency",
+    urgentSituations: "Urgent Situations",
+    importantPhrases: "Important Phrases",
+    medicalAlertTitle: "Medical Alert Card",
+    medicalAlertDesc: "Customize these for your personal medical information to show to emergency responders.",
+    bloodTypeLabel: "Blood Type",
+    allergiesLabel: "Allergies",
+    medicationsLabel: "Medications",
+    policeLabel: "Police",
+    ambulanceLabel: "Ambulance",
+    fireLabel: "Fire",
+  });
   const [selectedCountry, setSelectedCountry] = useState("Japan");
   const [translatedPhrases, setTranslatedPhrases] = useState<EmergencyPhrase[]>([]);
   const [isTranslating, setIsTranslating] = useState(false);
@@ -171,15 +193,15 @@ export default function EmergencyPage() {
                 <AlertTriangle size={18} className="text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-white">Emergency Assistant</h1>
+                <h1 className="text-2xl font-bold text-white">{t.pageTitle}</h1>
                 <p className="text-white/50 text-sm">
-                  Critical phrases & emergency contacts
+                  {t.pageSubtitle}
                 </p>
               </div>
             </div>
             <Badge variant="danger" className="animate-pulse px-3 py-1.5">
               <Siren size={12} className="mr-1" />
-              Emergency Mode
+              {t.emergencyModeLabel}
             </Badge>
           </motion.div>
 
@@ -194,7 +216,7 @@ export default function EmergencyPage() {
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-3">
                     <Phone size={16} className="text-red-400" />
-                    <h3 className="font-semibold text-white">Emergency Numbers</h3>
+                    <h3 className="font-semibold text-white">{t.emergencyNumbersTitle}</h3>
                     <Select
                       value={selectedCountry}
                       onValueChange={setSelectedCountry}
@@ -204,9 +226,9 @@ export default function EmergencyPage() {
                   </div>
                   <div className="grid grid-cols-3 gap-3">
                     {[
-                      { icon: Shield, label: "Police", number: contacts.police, color: "text-blue-400" },
-                      { icon: Heart, label: "Ambulance", number: contacts.ambulance, color: "text-red-400" },
-                      { icon: Siren, label: "Fire", number: contacts.fire, color: "text-orange-400" },
+                      { icon: Shield, label: t.policeLabel, number: contacts.police, color: "text-blue-400" },
+                      { icon: Heart, label: t.ambulanceLabel, number: contacts.ambulance, color: "text-red-400" },
+                      { icon: Siren, label: t.fireLabel, number: contacts.fire, color: "text-orange-400" },
                     ].map(({ icon: Icon, label, number, color }) => (
                       <a
                         key={label}
@@ -231,10 +253,10 @@ export default function EmergencyPage() {
             transition={{ delay: 0.15 }}
           >
             <Card className="mb-6">
-              <h3 className="font-semibold text-white mb-4">Translate Emergency Phrases</h3>
+              <h3 className="font-semibold text-white mb-4">{t.translatePhrasesTitle}</h3>
               <div className="flex gap-3">
                 <div className="flex-1">
-                  <label className="text-xs text-white/40 mb-1.5 block">Target Language</label>
+                  <label className="text-xs text-white/40 mb-1.5 block">{t.targetLangLabel}</label>
                   <Select
                     value={targetLang}
                     onValueChange={setTargetLang}
@@ -252,7 +274,7 @@ export default function EmergencyPage() {
                     ) : (
                       <Navigation size={16} />
                     )}
-                    {isTranslating ? "Translating..." : "Translate All"}
+                    {isTranslating ? t.translatingBtn : t.translateAllBtn}
                   </Button>
                 </div>
               </div>
@@ -263,9 +285,9 @@ export default function EmergencyPage() {
           <div className="space-y-6">
             {/* Critical phrases first */}
             {[
-              { severity: "critical" as const, label: "Critical Emergency", icon: <Siren size={16} className="text-red-400" />, borderColor: "border-red-500/30" },
-              { severity: "urgent" as const, label: "Urgent Situations", icon: <AlertTriangle size={16} className="text-orange-400" />, borderColor: "border-orange-500/30" },
-              { severity: "important" as const, label: "Important Phrases", icon: <Shield size={16} className="text-blue-400" />, borderColor: "border-blue-500/30" },
+              { severity: "critical" as const, label: t.criticalEmergency, icon: <Siren size={16} className="text-red-400" />, borderColor: "border-red-500/30" },
+              { severity: "urgent" as const, label: t.urgentSituations, icon: <AlertTriangle size={16} className="text-orange-400" />, borderColor: "border-orange-500/30" },
+              { severity: "important" as const, label: t.importantPhrases, icon: <Shield size={16} className="text-blue-400" />, borderColor: "border-blue-500/30" },
             ].map(({ severity, label, icon, borderColor }) => {
               const sevPhrases = phrases.filter((p) => p.severity === severity);
               if (!sevPhrases.length) return null;
@@ -354,17 +376,17 @@ export default function EmergencyPage() {
             <Card className="bg-gradient-to-br from-pink-500/10 to-rose-500/10 border-pink-500/20">
               <div className="flex items-center gap-2 mb-4">
                 <Pill size={18} className="text-pink-400" />
-                <h3 className="font-semibold text-white">Medical Alert Card</h3>
+                <h3 className="font-semibold text-white">{t.medicalAlertTitle}</h3>
                 <Badge variant="warning">Print or Screenshot</Badge>
               </div>
               <p className="text-sm text-white/50 mb-4">
-                Customize these for your personal medical information to show to emergency responders.
+                {t.medicalAlertDesc}
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {[
-                  { label: "Blood Type", placeholder: "e.g. A+", icon: "🩸" },
-                  { label: "Allergies", placeholder: "e.g. Peanuts, Penicillin", icon: "⚠️" },
-                  { label: "Medications", placeholder: "e.g. Insulin", icon: "💊" },
+                  { label: t.bloodTypeLabel, placeholder: "e.g. A+", icon: "🩸" },
+                  { label: t.allergiesLabel, placeholder: "e.g. Peanuts, Penicillin", icon: "⚠️" },
+                  { label: t.medicationsLabel, placeholder: "e.g. Insulin", icon: "💊" },
                 ].map(({ label, placeholder, icon }) => (
                   <div key={label}>
                     <label className="text-xs text-white/40 mb-1.5 block">{icon} {label}</label>

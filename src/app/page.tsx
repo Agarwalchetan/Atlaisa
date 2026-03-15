@@ -22,6 +22,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useTranslations } from "@/lib/use-translations";
 
 function useCountUp(target: number, duration = 1500, startOnView = true) {
   const [count, setCount] = useState(0);
@@ -55,56 +56,13 @@ function useCountUp(target: number, duration = 1500, startOnView = true) {
   return { count, ref };
 }
 
-const features = [
-  {
-    icon: Map,
-    title: "Interactive World Map",
-    description: "Click anywhere on our 3D globe to instantly discover travel information, local attractions, and hidden gems.",
-    color: "from-sky-500 to-blue-600",
-    href: "/map",
-  },
-  {
-    icon: BookOpen,
-    title: "AI Travel Guides",
-    description: "Get comprehensive, AI-generated travel guides with cultural tips, must-visit places, and local cuisine.",
-    color: "from-violet-500 to-purple-600",
-    href: "/travel-guide",
-  },
-  {
-    icon: Languages,
-    title: "Phrase Translator",
-    description: "Essential travel phrases with pronunciation guides and audio playback in any language.",
-    color: "from-emerald-500 to-teal-600",
-    href: "/phrases",
-  },
-  {
-    icon: Mic,
-    title: "Live Conversation",
-    description: "Real-time bilingual conversation translator. Speak and get instant translations in both directions.",
-    color: "from-orange-500 to-amber-600",
-    href: "/conversation",
-  },
-  {
-    icon: AlertTriangle,
-    title: "Emergency Assistant",
-    description: "Instant access to emergency phrases, nearby hospitals, police stations, and critical contacts.",
-    color: "from-red-500 to-rose-600",
-    href: "/emergency",
-  },
-  {
-    icon: Brain,
-    title: "Cultural Intelligence",
-    description: "Deep cultural insights — etiquette, customs, social norms, and behaviors to be aware of.",
-    color: "from-pink-500 to-fuchsia-600",
-    href: "/travel-guide",
-  },
-];
-
-const stats = [
-  { numericValue: 195, suffix: "+", label: "Countries Covered", icon: Globe },
-  { numericValue: 15, suffix: "+", label: "Languages Supported", icon: Languages },
-  { numericValue: null, suffix: "AI", label: "Powered Guides", icon: Sparkles },
-  { numericValue: null, suffix: "24/7", label: "Emergency Ready", icon: Shield },
+const destinations = [
+  { name: "Tokyo", country: "Japan", emoji: "🗼", lat: 35.6762, lng: 139.6503 },
+  { name: "Paris", country: "France", emoji: "🗺️", lat: 48.8566, lng: 2.3522 },
+  { name: "New York", country: "USA", emoji: "🗽", lat: 40.7128, lng: -74.0060 },
+  { name: "Dubai", country: "UAE", emoji: "🏙️", lat: 25.2048, lng: 55.2708 },
+  { name: "Bangkok", country: "Thailand", emoji: "⛩️", lat: 13.7563, lng: 100.5018 },
+  { name: "Rome", country: "Italy", emoji: "🏛️", lat: 41.9028, lng: 12.4964 },
 ];
 
 function AnimatedStat({
@@ -132,15 +90,6 @@ function AnimatedStat({
   );
 }
 
-const destinations = [
-  { name: "Tokyo", country: "Japan", emoji: "🗼", lat: 35.6762, lng: 139.6503 },
-  { name: "Paris", country: "France", emoji: "🗺️", lat: 48.8566, lng: 2.3522 },
-  { name: "New York", country: "USA", emoji: "🗽", lat: 40.7128, lng: -74.0060 },
-  { name: "Dubai", country: "UAE", emoji: "🏙️", lat: 25.2048, lng: 55.2708 },
-  { name: "Bangkok", country: "Thailand", emoji: "⛩️", lat: 13.7563, lng: 100.5018 },
-  { name: "Rome", country: "Italy", emoji: "🏛️", lat: 41.9028, lng: 12.4964 },
-];
-
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -155,6 +104,84 @@ const itemVariants = {
 };
 
 export default function HomePage() {
+  const t = useTranslations({
+    heroBadge: "AI-Powered Travel Intelligence",
+    heroHeading1: "Travel the World",
+    heroHeading2: "Without Language Barriers",
+    heroSubtitle: "Atlasia combines interactive maps, AI travel guides, real-time translation, cultural intelligence, and emergency assistance into one intelligent multilingual travel companion.",
+    heroCtaMap: "Explore the Map",
+    heroCtaGuide: "Get Travel Guide",
+    statCountries: "Countries Covered",
+    statLanguages: "Languages Supported",
+    statAI: "Powered Guides",
+    statEmergency: "Emergency Ready",
+    featuresBadge: "Core Features",
+    featuresHeading: "Everything a traveler needs",
+    featuresSubtitle: "From exploration to emergency assistance, Atlasia has you covered in any corner of the world.",
+    featExplore: "Explore",
+    feat1Title: "Interactive World Map",
+    feat1Desc: "Click anywhere on our 3D globe to instantly discover travel information, local attractions, and hidden gems.",
+    feat2Title: "AI Travel Guides",
+    feat2Desc: "Get comprehensive, AI-generated travel guides with cultural tips, must-visit places, and local cuisine.",
+    feat3Title: "Phrase Translator",
+    feat3Desc: "Essential travel phrases with pronunciation guides and audio playback in any language.",
+    feat4Title: "Live Conversation",
+    feat4Desc: "Real-time bilingual conversation translator. Speak and get instant translations in both directions.",
+    feat5Title: "Emergency Assistant",
+    feat5Desc: "Instant access to emergency phrases, nearby hospitals, police stations, and critical contacts.",
+    feat6Title: "Cultural Intelligence",
+    feat6Desc: "Deep cultural insights — etiquette, customs, social norms, and behaviors to be aware of.",
+    destBadge: "Popular Destinations",
+    destHeading: "Discover the world's top cities",
+    destSubtitle: "Quick access to AI-generated travel guides for the most popular destinations.",
+    killerBadge: "Killer Features",
+    killerHeading: "Intelligence beyond translation",
+    killer1Title: "Cultural Intelligence",
+    killer1Sub: "AI Cultural Advisor",
+    killer1Desc: "Understand greeting customs, dining etiquette, social norms, and what to avoid — all tailored to your destination.",
+    killer1Item1: "Greeting customs",
+    killer1Item2: "Dining etiquette",
+    killer1Item3: "Social norms",
+    killer1Item4: "What to avoid",
+    killer2Title: "AI Itinerary Generator",
+    killer2Sub: "Personalized Travel Plans",
+    killer2Desc: "Generate day-by-day travel itineraries based on your interests, travel style, and available days.",
+    killer2Item1: "Multi-day planning",
+    killer2Item2: "Interest-based",
+    killer2Item3: "Budget aware",
+    killer2Item4: "Translated output",
+    killer3Title: "Live Conversation Mode",
+    killer3Sub: "Real-Time Translation",
+    killer3Desc: "Speak in your language, hear it in theirs. Live bilingual conversation with voice input and audio output.",
+    killer3Item1: "Voice detection",
+    killer3Item2: "Instant translation",
+    killer3Item3: "Audio playback",
+    killer3Item4: "Dual language UI",
+    ctaHeading: "Ready to explore the world?",
+    ctaSubtitle: "Start your journey with Atlasia. Click any city on the map and experience travel intelligence like never before.",
+    ctaMap: "Open World Map",
+    ctaLive: "Try Live Translator",
+    footerTagline: "Travel the world without language barriers — powered by AI",
+    footerBuilt: "Built for global explorers",
+  });
+
+  const stats = [
+    { numericValue: 195, suffix: "+", label: t.statCountries, icon: Globe },
+    { numericValue: 15, suffix: "+", label: t.statLanguages, icon: Languages },
+    { numericValue: null, suffix: "AI", label: t.statAI, icon: Sparkles },
+    { numericValue: null, suffix: "24/7", label: t.statEmergency, icon: Shield },
+  ];
+
+  const features = [
+    { icon: Map, title: t.feat1Title, description: t.feat1Desc, color: "from-sky-500 to-blue-600", href: "/map" },
+    { icon: BookOpen, title: t.feat2Title, description: t.feat2Desc, color: "from-violet-500 to-purple-600", href: "/travel-guide" },
+    { icon: Languages, title: t.feat3Title, description: t.feat3Desc, color: "from-emerald-500 to-teal-600", href: "/phrases" },
+    { icon: Mic, title: t.feat4Title, description: t.feat4Desc, color: "from-orange-500 to-amber-600", href: "/conversation" },
+    { icon: AlertTriangle, title: t.feat5Title, description: t.feat5Desc, color: "from-red-500 to-rose-600", href: "/emergency" },
+    { icon: Brain, title: t.feat6Title, description: t.feat6Desc, color: "from-pink-500 to-fuchsia-600", href: "/travel-guide" },
+  ];
+
+
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* Background */}
@@ -190,20 +217,19 @@ export default function HomePage() {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-sm font-medium mb-8"
             >
               <Sparkles size={14} />
-              AI-Powered Travel Intelligence
+              {t.heroBadge}
               <Sparkles size={14} />
             </motion.div>
 
             {/* Main Heading */}
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 leading-[1.1] tracking-tight">
-              Travel the World
+              {t.heroHeading1}
               <br />
-              <span className="gradient-text">Without Language Barriers</span>
+              <span className="gradient-text">{t.heroHeading2}</span>
             </h1>
 
             <p className="text-xl text-white/50 max-w-2xl mx-auto mb-10 leading-relaxed">
-              Atlasia combines interactive maps, AI travel guides, real-time translation, cultural intelligence, 
-              and emergency assistance into one intelligent multilingual travel companion.
+              {t.heroSubtitle}
             </p>
 
             {/* CTA Buttons */}
@@ -211,14 +237,14 @@ export default function HomePage() {
               <Link href="/map">
                 <Button size="lg" className="gap-2 shadow-lg shadow-sky-500/25 hover:shadow-sky-500/40 transition-shadow">
                   <Globe size={18} />
-                  Explore the Map
+                  {t.heroCtaMap}
                   <ArrowRight size={16} />
                 </Button>
               </Link>
               <Link href="/travel-guide">
                 <Button size="lg" variant="glass" className="gap-2">
                   <BookOpen size={18} />
-                  Get Travel Guide
+                  {t.heroCtaGuide}
                 </Button>
               </Link>
             </div>
@@ -250,12 +276,12 @@ export default function HomePage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <Badge variant="info" className="mb-4">Core Features</Badge>
+            <Badge variant="info" className="mb-4">{t.featuresBadge}</Badge>
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Everything a traveler needs
+              {t.featuresHeading}
             </h2>
             <p className="text-white/50 max-w-xl mx-auto">
-              From exploration to emergency assistance, Atlasia has you covered in any corner of the world.
+              {t.featuresSubtitle}
             </p>
           </motion.div>
 
@@ -276,7 +302,7 @@ export default function HomePage() {
                     <h3 className="text-lg font-semibold text-white mb-2">{title}</h3>
                     <p className="text-sm text-white/50 leading-relaxed">{description}</p>
                     <div className="flex items-center gap-1 mt-4 text-sky-400 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                      Explore <ChevronRight size={14} />
+                      {t.featExplore} <ChevronRight size={14} />
                     </div>
                   </Card>
                 </Link>
@@ -296,12 +322,12 @@ export default function HomePage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <Badge variant="success" className="mb-4">Popular Destinations</Badge>
+            <Badge variant="success" className="mb-4">{t.destBadge}</Badge>
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Discover the world&apos;s top cities
+              {t.destHeading}
             </h2>
             <p className="text-white/50 max-w-xl mx-auto">
-              Quick access to AI-generated travel guides for the most popular destinations.
+              {t.destSubtitle}
             </p>
           </motion.div>
 
@@ -339,9 +365,9 @@ export default function HomePage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <Badge variant="warning" className="mb-4">Killer Features</Badge>
+            <Badge variant="warning" className="mb-4">{t.killerBadge}</Badge>
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Intelligence beyond translation
+              {t.killerHeading}
             </h2>
           </motion.div>
 
@@ -350,26 +376,26 @@ export default function HomePage() {
               {
                 icon: Brain,
                 color: "from-pink-500 to-rose-600",
-                title: "Cultural Intelligence",
-                subtitle: "AI Cultural Advisor",
-                desc: "Understand greeting customs, dining etiquette, social norms, and what to avoid — all tailored to your destination.",
-                items: ["Greeting customs", "Dining etiquette", "Social norms", "What to avoid"],
+                title: t.killer1Title,
+                subtitle: t.killer1Sub,
+                desc: t.killer1Desc,
+                items: [t.killer1Item1, t.killer1Item2, t.killer1Item3, t.killer1Item4],
               },
               {
                 icon: Calendar,
                 color: "from-violet-500 to-indigo-600",
-                title: "AI Itinerary Generator",
-                subtitle: "Personalized Travel Plans",
-                desc: "Generate day-by-day travel itineraries based on your interests, travel style, and available days.",
-                items: ["Multi-day planning", "Interest-based", "Budget aware", "Translated output"],
+                title: t.killer2Title,
+                subtitle: t.killer2Sub,
+                desc: t.killer2Desc,
+                items: [t.killer2Item1, t.killer2Item2, t.killer2Item3, t.killer2Item4],
               },
               {
                 icon: Zap,
                 color: "from-amber-500 to-orange-600",
-                title: "Live Conversation Mode",
-                subtitle: "Real-Time Translation",
-                desc: "Speak in your language, hear it in theirs. Live bilingual conversation with voice input and audio output.",
-                items: ["Voice detection", "Instant translation", "Audio playback", "Dual language UI"],
+                title: t.killer3Title,
+                subtitle: t.killer3Sub,
+                desc: t.killer3Desc,
+                items: [t.killer3Item1, t.killer3Item2, t.killer3Item3, t.killer3Item4],
               },
             ].map(({ icon: Icon, color, title, subtitle, desc, items }) => (
               <motion.div
@@ -415,23 +441,23 @@ export default function HomePage() {
               <div className="relative">
                 <div className="text-5xl mb-4 inline-block animate-float">🌍</div>
                 <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-                  Ready to explore the world?
+                  {t.ctaHeading}
                 </h2>
                 <p className="text-white/50 mb-8 max-w-xl mx-auto">
-                  Start your journey with Atlasia. Click any city on the map and experience travel intelligence like never before.
+                  {t.ctaSubtitle}
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                   <Link href="/map">
                     <Button size="lg" className="gap-2 shadow-lg shadow-sky-500/25 animate-glow">
                       <Globe size={18} />
-                      Open World Map
+                      {t.ctaMap}
                       <ArrowRight size={16} />
                     </Button>
                   </Link>
                   <Link href="/conversation">
                     <Button size="lg" variant="glass" className="gap-2">
                       <Mic size={18} />
-                      Try Live Translator
+                      {t.ctaLive}
                     </Button>
                   </Link>
                 </div>
@@ -451,11 +477,11 @@ export default function HomePage() {
             <span className="text-white font-semibold">Atla<span className="text-sky-400">sia</span></span>
           </div>
           <p className="text-white/30 text-sm">
-            Travel the world without language barriers — powered by AI
+            {t.footerTagline}
           </p>
           <div className="flex items-center gap-1 text-white/30 text-sm">
             <Star size={12} className="fill-current" />
-            Built for global explorers
+            {t.footerBuilt}
           </div>
         </div>
       </footer>

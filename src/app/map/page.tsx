@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { Globe, Info } from "lucide-react";
+import { useTranslations } from "@/lib/use-translations";
 
 const MapComponent = dynamic(
   () => import("@/components/map/map-component").then((m) => m.MapComponent),
@@ -10,6 +11,12 @@ const MapComponent = dynamic(
 );
 
 export default function MapPage() {
+  const t = useTranslations({
+    pageTitle: "Interactive World Map",
+    pageSubtitle: "Click anywhere on the map to explore travel guides for any location",
+    infoTip: "Click anywhere on the map to explore",
+  });
+
   return (
     <div className="min-h-screen bg-slate-950 pt-16">
       {/* Header */}
@@ -26,15 +33,15 @@ export default function MapPage() {
                 <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center">
                   <Globe size={18} className="text-white" />
                 </div>
-                <h1 className="text-2xl font-bold text-white">Interactive World Map</h1>
+                <h1 className="text-2xl font-bold text-white">{t.pageTitle}</h1>
               </div>
               <p className="text-white/50 text-sm ml-12">
-                Click anywhere on the map to explore travel guides for any location
+                {t.pageSubtitle}
               </p>
             </div>
             <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-sky-500/10 border border-sky-500/20 text-sky-400 text-sm">
               <Info size={14} />
-              Click anywhere on the map to explore
+              {t.infoTip}
             </div>
           </motion.div>
         </div>

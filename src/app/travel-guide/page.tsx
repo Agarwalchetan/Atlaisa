@@ -31,6 +31,7 @@ import { LoadingOverlay } from "@/components/ui/loading";
 import { Select } from "@/components/ui/select";
 import { Tabs } from "@/components/ui/tabs";
 import { useLanguage } from "@/lib/language-context";
+import { useTranslations } from "@/lib/use-translations";
 import { SUPPORTED_LANGUAGES, TRAVEL_INTERESTS } from "@/lib/utils";
 import type { TravelGuide, ItineraryDay } from "@/types";
 
@@ -43,6 +44,43 @@ const tabs = [
 function TravelGuidePage() {
   const searchParams = useSearchParams();
   const { language } = useLanguage();
+  const t = useTranslations({
+    pageTitle: "AI Travel Guide",
+    pageSubtitlePrefix: "Powered by AI • Content in",
+    inputPlaceholder: "Enter city, country, or destination...",
+    generateBtn: "Generate",
+    tabGuide: "Travel Guide",
+    tabItinerary: "AI Itinerary",
+    tabCultural: "Cultural Intelligence",
+    emptyGuideTitle: "No destination selected",
+    emptyGuideDesc: "Enter a city or country above to generate your AI travel guide",
+    mustVisitLabel: "Must-Visit Places",
+    foodLabel: "Famous Food & Cuisine",
+    etiquetteLabel: "Cultural Etiquette",
+    transportLabel: "Transportation Tips",
+    hiddenGemsLabel: "Hidden Gems",
+    emergencyLabel: "Emergency Numbers",
+    itineraryConfigTitle: "Customize Your Itinerary",
+    daysLabel: "Number of Days",
+    budgetLabel: "Budget",
+    interestsLabel: "Interests",
+    generateItinerary: "Generate Itinerary",
+    emptyItineraryTitle: "No itinerary generated",
+    emptyItineraryDesc: "Configure your trip above and click Generate Itinerary",
+    generateCultural: "Generate Cultural Intelligence",
+    greetingCustoms: "Greeting Customs",
+    diningEtiquette: "Dining Etiquette",
+    socialNorms: "Social Norms",
+    thingsToAvoid: "Things to Avoid",
+    dressCode: "Dress Code",
+    tipping: "Tipping Culture",
+    religiousConsiderations: "Religious Considerations",
+    morning: "Morning",
+    afternoon: "Afternoon",
+    evening: "Evening",
+    day: "Day",
+    mustTry: "Must Try",
+  });
   const [activeTab, setActiveTab] = useState("guide");
   const [locationInput, setLocationInput] = useState(
     searchParams.get("location") || ""
@@ -158,9 +196,9 @@ function TravelGuidePage() {
               <BookOpen size={18} className="text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white">AI Travel Guide</h1>
+              <h1 className="text-2xl font-bold text-white">{t.pageTitle}</h1>
               <p className="text-white/50 text-sm">
-                Powered by AI • Content in{" "}
+                {t.pageSubtitlePrefix}{" "}
                 <span className="text-sky-400">
                   {currentLang?.flag} {currentLang?.name}
                 </span>
@@ -181,8 +219,7 @@ function TravelGuidePage() {
                 className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40"
               />
               <Input
-                placeholder="Enter city, country, or destination..."
-                value={locationInput}
+                placeholder={t.inputPlaceholder}                value={locationInput}
                 onChange={(e) => setLocationInput(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
@@ -203,7 +240,7 @@ function TravelGuidePage() {
               className="gap-2 shrink-0"
             >
               <Sparkles size={16} />
-              Generate
+              {t.generateBtn}
             </Button>
           </motion.div>
 
@@ -260,7 +297,7 @@ function TravelGuidePage() {
                     <div>
                       <div className="flex items-center gap-2 mb-4">
                         <Star size={16} className="text-amber-400" />
-                        <h3 className="text-lg font-semibold text-white">Must-Visit Places</h3>
+                        <h3 className="text-lg font-semibold text-white">{t.mustVisitLabel}</h3>
                         <Badge variant="warning">{guide.mustVisitPlaces?.length || 0}</Badge>
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -293,7 +330,7 @@ function TravelGuidePage() {
                     <div>
                       <div className="flex items-center gap-2 mb-4">
                         <Utensils size={16} className="text-emerald-400" />
-                        <h3 className="text-lg font-semibold text-white">Famous Food & Cuisine</h3>
+                        <h3 className="text-lg font-semibold text-white">{t.foodLabel}</h3>
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {guide.famousFood?.map((food, i) => (
@@ -302,7 +339,7 @@ function TravelGuidePage() {
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2 mb-1">
                                 <span className="font-semibold text-sm text-white">{food.name}</span>
-                                {food.mustTry && <Badge variant="success" className="text-xs">Must Try</Badge>}
+                                {food.mustTry && <Badge variant="success" className="text-xs">{t.mustTry}</Badge>}
                               </div>
                               <p className="text-xs text-white/50">{food.description}</p>
                               {food.where && (
@@ -318,7 +355,7 @@ function TravelGuidePage() {
                     <div>
                       <div className="flex items-center gap-2 mb-4">
                         <Users size={16} className="text-violet-400" />
-                        <h3 className="text-lg font-semibold text-white">Cultural Etiquette</h3>
+                        <h3 className="text-lg font-semibold text-white">{t.etiquetteLabel}</h3>
                       </div>
                       <div className="space-y-3">
                         {guide.culturalEtiquette?.map((tip, i) => (
@@ -351,7 +388,7 @@ function TravelGuidePage() {
                       <div>
                         <div className="flex items-center gap-2 mb-4">
                           <Train size={16} className="text-sky-400" />
-                          <h3 className="text-lg font-semibold text-white">Transportation Tips</h3>
+                          <h3 className="text-lg font-semibold text-white">{t.transportLabel}</h3>
                         </div>
                         <Card>
                           <ul className="space-y-2">
@@ -367,7 +404,7 @@ function TravelGuidePage() {
                       <div>
                         <div className="flex items-center gap-2 mb-4">
                           <Gem size={16} className="text-pink-400" />
-                          <h3 className="text-lg font-semibold text-white">Hidden Gems</h3>
+                          <h3 className="text-lg font-semibold text-white">{t.hiddenGemsLabel}</h3>
                         </div>
                         <Card>
                           <ul className="space-y-2">
@@ -387,7 +424,7 @@ function TravelGuidePage() {
                       <div>
                         <div className="flex items-center gap-2 mb-4">
                           <Phone size={16} className="text-red-400" />
-                          <h3 className="text-lg font-semibold text-white">Emergency Numbers</h3>
+                          <h3 className="text-lg font-semibold text-white">{t.emergencyLabel}</h3>
                         </div>
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                           {guide.emergencyNumbers.map((contact, i) => (
@@ -406,8 +443,8 @@ function TravelGuidePage() {
                     <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mx-auto mb-4">
                       <BookOpen size={28} className="text-white/20" />
                     </div>
-                    <h3 className="text-white/40 font-medium mb-2">No destination selected</h3>
-                    <p className="text-white/25 text-sm">Enter a city or country above to generate your AI travel guide</p>
+                    <h3 className="text-white/40 font-medium mb-2">{t.emptyGuideTitle}</h3>
+                    <p className="text-white/25 text-sm">{t.emptyGuideDesc}</p>
                   </div>
                 )}
               </motion.div>
@@ -423,10 +460,10 @@ function TravelGuidePage() {
               >
                 {/* Itinerary Config */}
                 <Card className="mb-6">
-                  <h3 className="font-semibold text-white mb-4">Customize Your Itinerary</h3>
+                  <h3 className="font-semibold text-white mb-4">{t.itineraryConfigTitle}</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                     <div>
-                      <label className="text-xs text-white/50 mb-1.5 block">Number of Days</label>
+                      <label className="text-xs text-white/50 mb-1.5 block">{t.daysLabel}</label>
                       <Select
                         value={days}
                         onValueChange={setDays}
@@ -441,7 +478,7 @@ function TravelGuidePage() {
                       />
                     </div>
                     <div>
-                      <label className="text-xs text-white/50 mb-1.5 block">Budget</label>
+                      <label className="text-xs text-white/50 mb-1.5 block">{t.budgetLabel}</label>
                       <Select
                         value={budget}
                         onValueChange={setBudget}
@@ -454,7 +491,7 @@ function TravelGuidePage() {
                     </div>
                   </div>
                   <div>
-                    <label className="text-xs text-white/50 mb-2 block">Interests</label>
+                    <label className="text-xs text-white/50 mb-2 block">{t.interestsLabel}</label>
                     <div className="flex flex-wrap gap-2">
                       {TRAVEL_INTERESTS.map((interest) => (
                         <button
@@ -474,7 +511,7 @@ function TravelGuidePage() {
                   <div className="mt-4 flex justify-end">
                     <Button onClick={handleFetchItinerary} disabled={isLoadingItinerary} className="gap-2">
                       <Calendar size={16} />
-                      Generate Itinerary
+                      {t.generateItinerary}
                     </Button>
                   </div>
                 </Card>
@@ -497,7 +534,7 @@ function TravelGuidePage() {
                               {day.day}
                             </div>
                             <div className="text-left">
-                              <div className="font-semibold text-white text-sm">Day {day.day}</div>
+                              <div className="font-semibold text-white text-sm">{t.day} {day.day}</div>
                               <div className="text-xs text-white/50">{day.theme}</div>
                             </div>
                           </div>
@@ -519,9 +556,9 @@ function TravelGuidePage() {
                             >
                               <div className="mt-4 space-y-4 border-t border-white/10 pt-4">
                                 {[
-                                  { label: "Morning", activities: day.morning, emoji: "🌅" },
-                                  { label: "Afternoon", activities: day.afternoon, emoji: "☀️" },
-                                  { label: "Evening", activities: day.evening, emoji: "🌙" },
+                                   { label: t.morning, activities: day.morning, emoji: "🌅" },
+                                   { label: t.afternoon, activities: day.afternoon, emoji: "☀️" },
+                                   { label: t.evening, activities: day.evening, emoji: "🌙" },
                                 ].map(({ label, activities, emoji }) => (
                                   activities && activities.length > 0 && (
                                     <div key={label}>
@@ -575,8 +612,8 @@ function TravelGuidePage() {
                     <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mx-auto mb-4">
                       <Calendar size={28} className="text-white/20" />
                     </div>
-                    <h3 className="text-white/40 font-medium mb-2">No itinerary generated</h3>
-                    <p className="text-white/25 text-sm">Configure your trip above and click Generate Itinerary</p>
+                    <h3 className="text-white/40 font-medium mb-2">{t.emptyItineraryTitle}</h3>
+                    <p className="text-white/25 text-sm">{t.emptyItineraryDesc}</p>
                   </div>
                 )}
               </motion.div>
@@ -594,7 +631,7 @@ function TravelGuidePage() {
                   <div className="text-center py-10 mb-6">
                     <Button onClick={handleFetchCultural} className="gap-2 mx-auto">
                       <Brain size={16} />
-                      Generate Cultural Intelligence
+                      {t.generateCultural}
                     </Button>
                   </div>
                 )}
@@ -606,28 +643,28 @@ function TravelGuidePage() {
                     {[
                       {
                         key: "greetingCustoms",
-                        label: "Greeting Customs",
+                        label: t.greetingCustoms,
                         icon: "🤝",
                         color: "from-sky-500/20 to-blue-500/10",
                         border: "border-sky-500/20",
                       },
                       {
                         key: "diningEtiquette",
-                        label: "Dining Etiquette",
+                        label: t.diningEtiquette,
                         icon: "🍽️",
                         color: "from-emerald-500/20 to-teal-500/10",
                         border: "border-emerald-500/20",
                       },
                       {
                         key: "socialNorms",
-                        label: "Social Norms",
+                        label: t.socialNorms,
                         icon: "👥",
                         color: "from-violet-500/20 to-purple-500/10",
                         border: "border-violet-500/20",
                       },
                       {
                         key: "thingsToAvoid",
-                        label: "Things to Avoid",
+                        label: t.thingsToAvoid,
                         icon: "🚫",
                         color: "from-red-500/20 to-rose-500/10",
                         border: "border-red-500/20",
@@ -656,7 +693,7 @@ function TravelGuidePage() {
                     <Card className="bg-gradient-to-br from-amber-500/20 to-yellow-500/10 border border-amber-500/20">
                       <div className="flex items-center gap-2 mb-3">
                         <span className="text-xl">👗</span>
-                        <h3 className="font-semibold text-white">Dress Code</h3>
+                        <h3 className="font-semibold text-white">{t.dressCode}</h3>
                       </div>
                       <p className="text-sm text-white/60">{culturalIntel.dresscode as string}</p>
                     </Card>
@@ -664,7 +701,7 @@ function TravelGuidePage() {
                     <Card className="bg-gradient-to-br from-green-500/20 to-emerald-500/10 border border-green-500/20">
                       <div className="flex items-center gap-2 mb-3">
                         <DollarSign size={16} className="text-green-400" />
-                        <h3 className="font-semibold text-white">Tipping Culture</h3>
+                        <h3 className="font-semibold text-white">{t.tipping}</h3>
                       </div>
                       <p className="text-sm text-white/60">{culturalIntel.tipping as string}</p>
                     </Card>
@@ -673,7 +710,7 @@ function TravelGuidePage() {
                       <Card className="sm:col-span-2 bg-gradient-to-br from-pink-500/20 to-rose-500/10 border border-pink-500/20">
                         <div className="flex items-center gap-2 mb-3">
                           <Heart size={16} className="text-pink-400" />
-                          <h3 className="font-semibold text-white">Religious Considerations</h3>
+                          <h3 className="font-semibold text-white">{t.religiousConsiderations}</h3>
                         </div>
                         <ul className="space-y-2">
                           {(culturalIntel.religiousConsiderations as string[] | undefined)?.map((item, i) => (

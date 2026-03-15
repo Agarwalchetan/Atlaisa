@@ -20,12 +20,26 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { LoadingOverlay } from "@/components/ui/loading";
 import { useLanguage } from "@/lib/language-context";
+import { useTranslations } from "@/lib/use-translations";
 import { PHRASE_CATEGORIES } from "@/lib/utils";
 import type { Phrase } from "@/types";
 
 function PhrasesPageContent() {
   const searchParams = useSearchParams();
   const { language } = useLanguage();
+  const t = useTranslations({
+    pageTitle: "Phrase Assistant",
+    pageSubtitle: "Essential travel phrases with pronunciation & audio",
+    inputPlaceholder: "Enter destination (e.g. Tokyo, Japan)...",
+    getPhrasesBtn: "Get Phrases",
+    searchPlaceholder: "Search phrases...",
+    noMatchFilter: "No phrases match your filter",
+    emptyTitle: "Ready for your journey?",
+    emptyDesc: "Enter your destination above to get essential travel phrases with pronunciation guides",
+    englishLabel: "English",
+    translationLabel: "Translation",
+    allCategory: "All",
+  });
   const [locationInput, setLocationInput] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
   const [phrases, setPhrases] = useState<Phrase[]>([]);
@@ -94,7 +108,7 @@ function PhrasesPageContent() {
   });
 
   const categoryData = [
-    { id: "all", label: "All", icon: "🌐" },
+          { id: "all", label: t.allCategory, icon: "🌐" },
     ...PHRASE_CATEGORIES,
   ];
 
@@ -114,9 +128,9 @@ function PhrasesPageContent() {
               <Languages size={18} className="text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white">Phrase Assistant</h1>
+              <h1 className="text-2xl font-bold text-white">{t.pageTitle}</h1>
               <p className="text-white/50 text-sm">
-                Essential travel phrases with pronunciation & audio
+                {t.pageSubtitle}
               </p>
             </div>
           </motion.div>
@@ -126,7 +140,7 @@ function PhrasesPageContent() {
             <div className="relative flex-1">
               <MapPin size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
               <Input
-                placeholder="Enter destination (e.g. Tokyo, Japan)..."
+                placeholder={t.inputPlaceholder}
                 value={locationInput}
                 onChange={(e) => setLocationInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleFetchPhrases()}
@@ -135,7 +149,7 @@ function PhrasesPageContent() {
             </div>
             <Button onClick={() => handleFetchPhrases()} disabled={isLoading} className="gap-2 shrink-0">
               {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Sparkles size={16} />}
-              Get Phrases
+              {t.getPhrasesBtn}
             </Button>
           </div>
 
@@ -168,7 +182,7 @@ function PhrasesPageContent() {
             <div className="relative mb-6">
               <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
               <Input
-                placeholder="Search phrases..."
+                placeholder={t.searchPlaceholder}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-9"
@@ -227,13 +241,13 @@ function PhrasesPageContent() {
 
                     {/* English */}
                     <div className="mb-3">
-                      <div className="text-xs text-white/30 mb-1">English</div>
+                      <div className="text-xs text-white/30 mb-1">{t.englishLabel}</div>
                       <p className="text-sm text-white/70">{phrase.english}</p>
                     </div>
 
                     {/* Translation */}
                     <div className="p-3 rounded-xl bg-white/5 border border-white/8 mb-2">
-                      <div className="text-xs text-white/30 mb-1.5">Translation</div>
+                      <div className="text-xs text-white/30 mb-1.5">{t.translationLabel}</div>
                       <p className="text-base text-white font-medium leading-snug">
                         {phrase.translated}
                       </p>
@@ -253,16 +267,16 @@ function PhrasesPageContent() {
           ) : phrases.length > 0 ? (
             <div className="text-center py-12">
               <Filter size={24} className="mx-auto mb-2 text-white/20" />
-              <p className="text-white/40 text-sm">No phrases match your filter</p>
+              <p className="text-white/40 text-sm">{t.noMatchFilter}</p>
             </div>
           ) : (
             <div className="text-center py-20">
               <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mx-auto mb-4">
                 <Languages size={28} className="text-white/20" />
               </div>
-              <h3 className="text-white/40 font-medium mb-2">Ready for your journey?</h3>
+              <h3 className="text-white/40 font-medium mb-2">{t.emptyTitle}</h3>
               <p className="text-white/25 text-sm max-w-xs mx-auto">
-                Enter your destination above to get essential travel phrases with pronunciation guides
+                {t.emptyDesc}
               </p>
             </div>
           )}

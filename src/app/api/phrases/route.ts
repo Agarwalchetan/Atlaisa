@@ -32,34 +32,48 @@ Respond ONLY with the JSON array.`;
       [{ role: "user", content: prompt }],
       { temperature: 0.4, maxTokens: 2000 }
     );
-    let phrases;
+
+    // Strip markdown code fences (```json ... ``` or ``` ... ```) that some
+    // models wrap around JSON output, then fall back to a bracket-extract.
+    let phrases: unknown[] = [];
+    const stripped = content.replace(/```(?:json)?\s*([\s\S]*?)```/i, "$1").trim();
     try {
-      phrases = JSON.parse(content);
+      const parsed = JSON.parse(stripped);
+      phrases = Array.isArray(parsed) ? parsed : [];
     } catch {
-      const jsonMatch = content.match(/\[[\s\S]*\]/);
-      phrases = jsonMatch ? JSON.parse(jsonMatch[0]) : [];
+      const jsonMatch = stripped.match(/\[[\s\S]*\]/);
+      if (jsonMatch) {
+        try {
+          const parsed = JSON.parse(jsonMatch[0]);
+          phrases = Array.isArray(parsed) ? parsed : [];
+        } catch {
+          phrases = [];
+        }
+      }
     }
 
-    // Use Lingo.dev to localize UI-facing text (pronunciation guides) if not English
-    if (language !== "en" && Array.isArray(phrases) && phrases.length > 0) {
-      try {
-        type Phrase = {
-          id: string;
-          category: string;
-          english: string;
-          translated: string;
-          pronunciation: string;
-        };
+    type Phrase = {
+      id: string;
+      category: string;
+      english: string;
+      translated: string;
+      pronunciation: string;
+    };
 
+    let typedPhrases = phrases as Phrase[];
+
+    // Use Lingo.dev to localize UI-facing text (pronunciation guides) if not English
+    if (language !== "en" && typedPhrases.length > 0) {
+      try {
         // Localize pronunciation guides into the user's chosen UI language
         const pronunciationPayload: Record<string, string> = {};
-        phrases.forEach((p: Phrase, i: number) => {
+        typedPhrases.forEach((p, i) => {
           pronunciationPayload[`p_${i}`] = p.pronunciation || "";
         });
 
         const localizedPronunciations = await localizeObject(pronunciationPayload, language, "en");
 
-        phrases = phrases.map((p: Phrase, i: number) => ({
+        typedPhrases = typedPhrases.map((p, i) => ({
           ...p,
           pronunciation: localizedPronunciations[`p_${i}`] || p.pronunciation,
         }));
@@ -68,7 +82,7 @@ Respond ONLY with the JSON array.`;
       }
     }
 
-    return NextResponse.json({ phrases });
+    return NextResponse.json({ phrases: typedPhrases });
   } catch (error) {
     console.error("Phrases error:", error);
     return NextResponse.json({ error: "Failed to generate phrases" }, { status: 500 });

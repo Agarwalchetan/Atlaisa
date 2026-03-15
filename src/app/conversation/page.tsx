@@ -18,10 +18,28 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select } from "@/components/ui/select";
 import { SUPPORTED_LANGUAGES } from "@/lib/utils";
+import { useTranslations } from "@/lib/use-translations";
 import type { ConversationMessage } from "@/types";
 import { generateId } from "@/lib/utils";
 
 export default function ConversationPage() {
+  const t = useTranslations({
+    pageTitle: "Live Conversation Translator",
+    pageSubtitle: "Real-time bilingual voice translation",
+    personASpeaks: "Person A speaks",
+    personBSpeaks: "Person B speaks",
+    processingTranslation: "Processing translation...",
+    conversationLabel: "Conversation",
+    clearBtn: "Clear",
+    emptyTitle: "Start the conversation",
+    emptyDesc: "Press the mic button on either side to speak, or type a message to translate",
+    originalLabel: "Original",
+    translationLabel: "Translation",
+    recordingLabel: "Recording...",
+    tapToStop: "Tap to stop",
+    tapToSpeak: "Tap to speak",
+    typeToTranslate: "Or type to translate...",
+  });
   const [langA, setLangA] = useState("en");
   const [langB, setLangB] = useState("ja");
   const [messages, setMessages] = useState<ConversationMessage[]>([]);
@@ -208,8 +226,8 @@ export default function ConversationPage() {
               <Mic size={18} className="text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white">Live Conversation Translator</h1>
-              <p className="text-white/50 text-sm">Real-time bilingual voice translation</p>
+              <h1 className="text-2xl font-bold text-white">{t.pageTitle}</h1>
+              <p className="text-white/50 text-sm">{t.pageSubtitle}</p>
             </div>
           </motion.div>
 
@@ -222,7 +240,7 @@ export default function ConversationPage() {
             <Card className="mb-6">
               <div className="flex items-center gap-3">
                 <div className="flex-1">
-                  <label className="text-xs text-white/40 mb-1.5 block">Person A speaks</label>
+                  <label className="text-xs text-white/40 mb-1.5 block">{t.personASpeaks}</label>
                   <Select value={langA} onValueChange={setLangA} options={langOptions} />
                 </div>
                 <button
@@ -232,7 +250,7 @@ export default function ConversationPage() {
                   <ArrowLeftRight size={18} />
                 </button>
                 <div className="flex-1">
-                  <label className="text-xs text-white/40 mb-1.5 block">Person B speaks</label>
+                  <label className="text-xs text-white/40 mb-1.5 block">{t.personBSpeaks}</label>
                   <Select value={langB} onValueChange={setLangB} options={langOptions} />
                 </div>
               </div>
@@ -252,8 +270,12 @@ export default function ConversationPage() {
               isDisabled={isRecordingB || isProcessing}
               onStartRecording={() => startRecording("A")}
               onStopRecording={() => stopRecording("A")}
-              onTextSubmit={(t) => handleTextInput(t, "A")}
+              onTextSubmit={(text) => handleTextInput(text, "A")}
               color="from-sky-500 to-blue-600"
+              recordingLabel={t.recordingLabel}
+              tapToStop={t.tapToStop}
+              tapToSpeak={t.tapToSpeak}
+              typeToTranslate={t.typeToTranslate}
             />
 
             {/* Person B */}
@@ -267,8 +289,12 @@ export default function ConversationPage() {
               isDisabled={isRecordingA || isProcessing}
               onStartRecording={() => startRecording("B")}
               onStopRecording={() => stopRecording("B")}
-              onTextSubmit={(t) => handleTextInput(t, "B")}
+              onTextSubmit={(text) => handleTextInput(text, "B")}
               color="from-violet-500 to-purple-600"
+              recordingLabel={t.recordingLabel}
+              tapToStop={t.tapToStop}
+              tapToSpeak={t.tapToSpeak}
+              typeToTranslate={t.typeToTranslate}
             />
           </div>
 
@@ -283,7 +309,7 @@ export default function ConversationPage() {
               >
                 <Loader2 size={16} className="animate-spin text-orange-400" />
                 <span className="text-orange-400 text-sm font-medium">
-                  Processing translation...
+                  {t.processingTranslation}
                 </span>
               </motion.div>
             )}
@@ -294,7 +320,7 @@ export default function ConversationPage() {
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 <MessageSquare size={16} className="text-white/40" />
-                <h3 className="font-semibold text-white">Conversation</h3>
+                <h3 className="font-semibold text-white">{t.conversationLabel}</h3>
                 {messages.length > 0 && (
                   <Badge variant="outline">{messages.length}</Badge>
                 )}
@@ -305,7 +331,7 @@ export default function ConversationPage() {
                   className="flex items-center gap-1.5 text-xs text-white/40 hover:text-red-400 transition-colors cursor-pointer"
                 >
                   <Trash2 size={12} />
-                  Clear
+                  {t.clearBtn}
                 </button>
               )}
             </div>
@@ -315,9 +341,9 @@ export default function ConversationPage() {
                 <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mx-auto mb-4">
                   <Radio size={28} className="text-white/20" />
                 </div>
-                <h3 className="text-white/40 font-medium mb-2">Start the conversation</h3>
+                <h3 className="text-white/40 font-medium mb-2">{t.emptyTitle}</h3>
                 <p className="text-white/25 text-sm max-w-xs mx-auto">
-                  Press the mic button on either side to speak, or type a message to translate
+                  {t.emptyDesc}
                 </p>
               </div>
             ) : (
@@ -339,9 +365,9 @@ export default function ConversationPage() {
                         } rounded-2xl p-4`}
                       >
                         <div className="flex items-center justify-between gap-4 mb-2">
-                          <span className="text-xs text-white/40">
-                            {getLangFlag(msg.originalLang)} Original
-                          </span>
+                            <span className="text-xs text-white/40">
+                              {getLangFlag(msg.originalLang)} {t.originalLabel}
+                            </span>
                           <span className="text-xs text-white/30">
                             {new Date(msg.timestamp).toLocaleTimeString([], {
                               hour: "2-digit",
@@ -354,7 +380,7 @@ export default function ConversationPage() {
                         <div className="border-t border-white/10 pt-3">
                           <div className="flex items-center justify-between mb-1">
                             <span className="text-xs text-white/40">
-                              {getLangFlag(msg.targetLang)} Translation
+                              {getLangFlag(msg.targetLang)} {t.translationLabel}
                             </span>
                             <button
                               onClick={() => playAudio(msg.translatedText, msg.id)}
@@ -394,6 +420,10 @@ interface RecorderPanelProps {
   onStopRecording: () => void;
   onTextSubmit: (text: string) => void;
   color: string;
+  recordingLabel: string;
+  tapToStop: string;
+  tapToSpeak: string;
+  typeToTranslate: string;
 }
 
 function RecorderPanel({
@@ -406,6 +436,10 @@ function RecorderPanel({
   onStopRecording,
   onTextSubmit,
   color,
+  recordingLabel,
+  tapToStop,
+  tapToSpeak,
+  typeToTranslate,
 }: RecorderPanelProps) {
   const [textInput, setTextInput] = useState("");
 
@@ -423,7 +457,7 @@ function RecorderPanel({
         </div>
         {isRecording && (
           <Badge variant="danger" className="ml-auto animate-pulse">
-            Recording...
+            {recordingLabel}
           </Badge>
         )}
       </div>
@@ -449,7 +483,7 @@ function RecorderPanel({
       </div>
 
       <div className="text-center text-xs text-white/40">
-        {isRecording ? "Tap to stop" : "Tap to speak"}
+        {isRecording ? tapToStop : tapToSpeak}
       </div>
 
       {/* Text Input Alternative */}
@@ -457,7 +491,7 @@ function RecorderPanel({
         <div className="flex gap-2">
           <input
             type="text"
-            placeholder="Or type to translate..."
+            placeholder={typeToTranslate}
             value={textInput}
             onChange={(e) => setTextInput(e.target.value)}
             onKeyDown={(e) => {
