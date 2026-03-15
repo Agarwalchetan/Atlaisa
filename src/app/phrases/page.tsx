@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, Suspense } from "react";
+import { useState, useRef, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -40,7 +40,7 @@ function PhrasesPageContent() {
     translationLabel: "Translation",
     allCategory: "All",
   });
-  const [locationInput, setLocationInput] = useState("");
+  const [locationInput, setLocationInput] = useState(searchParams.get("location") || "");
   const [activeCategory, setActiveCategory] = useState("all");
   const [phrases, setPhrases] = useState<Phrase[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -48,6 +48,15 @@ function PhrasesPageContent() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Auto-fetch if a ?location= param is present on mount
+  const initialLocation = searchParams.get("location");
+  useEffect(() => {
+    if (initialLocation) {
+      handleFetchPhrases(initialLocation);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialLocation]);
 
   const handleFetchPhrases = async (loc?: string) => {
     const location = loc || locationInput;
@@ -64,7 +73,7 @@ function PhrasesPageContent() {
         }),
       });
       const data = await res.json();
-      if (data.phrases) setPhrases(data.phrases);
+      if (Array.isArray(data.phrases)) setPhrases(data.phrases);
     } catch (err) {
       console.error(err);
     } finally {
