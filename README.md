@@ -4,8 +4,6 @@
 
 Atlasia gives travelers real-time AI translations, phrase generation with pronunciation audio, cultural intelligence, trip itineraries, an interactive world map, and emergency contact lookup — all in one app, deployable in minutes.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/AgarwalChetan/Atlasia)
-
 ---
 
 ## Table of Contents
