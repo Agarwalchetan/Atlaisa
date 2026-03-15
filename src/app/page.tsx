@@ -20,6 +20,9 @@ import {
   Shield,
   Github,
   Heart,
+  CreditCard,
+  Utensils,
+  MessageCircle,
 } from "lucide-react";
 import {
   ToriiGateIcon,
@@ -141,6 +144,12 @@ export default function HomePage() {
     feat5Desc: "Instant access to emergency phrases, nearby hospitals, police stations, and critical contacts.",
     feat6Title: "Cultural Intelligence",
     feat6Desc: "Deep cultural insights — etiquette, customs, social norms, and behaviors to be aware of.",
+    feat7Title: "Travel Survival Card",
+    feat7Desc: "Generate an instant survival card with emergency numbers, local rules, payment info, and key phrases for any country.",
+    feat8Title: "Food Explorer",
+    feat8Desc: "Discover iconic local dishes with descriptions, where to try them, and exactly how to order them in the local language.",
+    feat9Title: "Ask Atlasia",
+    feat9Desc: "Chat with an AI travel expert — ask about transport, safety, budgets, hidden gems, or anything else about your trip.",
     destBadge: "Popular Destinations",
     destHeading: "Discover the world's top cities",
     destSubtitle: "Quick access to AI-generated travel guides for the most popular destinations.",
@@ -189,6 +198,9 @@ export default function HomePage() {
     { icon: Mic, title: t.feat4Title, description: t.feat4Desc, color: "from-amber-400 to-amber-600", href: "/conversation" },
     { icon: AlertTriangle, title: t.feat5Title, description: t.feat5Desc, color: "from-rose-500 to-rose-600", href: "/emergency" },
     { icon: Brain, title: t.feat6Title, description: t.feat6Desc, color: "from-amber-500 to-teal-500", href: "/travel-guide" },
+    { icon: CreditCard, title: t.feat7Title, description: t.feat7Desc, color: "from-amber-500 to-amber-600", href: "/survival-card" },
+    { icon: Utensils, title: t.feat8Title, description: t.feat8Desc, color: "from-teal-500 to-teal-600", href: "/food-explorer" },
+    { icon: MessageCircle, title: t.feat9Title, description: t.feat9Desc, color: "from-teal-400 to-teal-600", href: "/chat" },
   ];
 
 
