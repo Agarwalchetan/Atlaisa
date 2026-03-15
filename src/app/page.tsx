@@ -18,6 +18,8 @@ import {
   Star,
   Zap,
   Shield,
+  Github,
+  Heart,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -469,19 +471,43 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="relative border-t border-stone-800/50 px-4 sm:px-6 lg:px-8 py-8">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center">
-              <Globe size={14} className="text-white" />
+        <div className="max-w-7xl mx-auto flex flex-col items-center gap-5">
+          <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-2.5">
+              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center">
+                <Globe size={14} className="text-white" />
+              </div>
+              <span className="text-stone-50 font-semibold font-[family-name:var(--font-sora)]">Atla<span className="text-amber-500">sia</span></span>
             </div>
-            <span className="text-stone-50 font-semibold font-[family-name:var(--font-sora)]">Atla<span className="text-amber-500">sia</span></span>
+            <p className="text-stone-500 text-sm">
+              {t.footerTagline}
+            </p>
+            <div className="flex items-center gap-1 text-stone-500 text-sm">
+              <Star size={12} className="fill-current" />
+              {t.footerBuilt}
+            </div>
           </div>
-          <p className="text-stone-500 text-sm">
-            {t.footerTagline}
-          </p>
-          <div className="flex items-center gap-1 text-stone-500 text-sm">
-            <Star size={12} className="fill-current" />
-            {t.footerBuilt}
+          <div className="w-full border-t border-stone-800/30 pt-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p className="flex items-center gap-1.5 text-stone-500 text-sm">
+              Developed with <Heart size={13} className="text-rose-500 fill-rose-500" /> by{" "}
+              <a
+                href="https://github.com/AgarwalChetan"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-amber-500 hover:text-amber-400 transition-colors font-medium"
+              >
+                Chetan Agarwal
+              </a>
+            </p>
+            <a
+              href="https://github.com/Agarwalchetan/Atlasia"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 text-stone-500 hover:text-stone-300 transition-colors text-sm"
+            >
+              <Github size={14} />
+              <span>View on GitHub</span>
+            </a>
           </div>
         </div>
       </footer>
