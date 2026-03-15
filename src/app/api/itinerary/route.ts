@@ -1,10 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import OpenAI from "openai";
+import { generateText } from "@/lib/ai-provider";
 import { localizeObject } from "@/lib/lingo";
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
 
 export async function POST(req: NextRequest) {
   try {
@@ -43,14 +39,10 @@ Return a JSON array of day objects:
 Make it realistic, specific, and culturally accurate. Each time period should have 1-2 activities.
 Respond ONLY with the JSON array, no markdown.`;
 
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [{ role: "user", content: prompt }],
-      temperature: 0.7,
-      max_tokens: 3000,
-    });
-
-    const content = response.choices[0].message.content || "[]";
+    const content = await generateText(
+      [{ role: "user", content: prompt }],
+      { temperature: 0.7, maxTokens: 3000 }
+    );
 
     let itinerary;
     try {

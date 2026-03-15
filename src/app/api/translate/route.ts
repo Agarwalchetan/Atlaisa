@@ -1,9 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import OpenAI from "openai";
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+import { generateText } from "@/lib/ai-provider";
 
 export async function POST(req: NextRequest) {
   try {
@@ -13,9 +9,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "text, fromLang, and toLang are required" }, { status: 400 });
     }
 
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
+    const content = await generateText(
+      [
         {
           role: "system",
           content: `You are a professional translator. Translate text from ${fromLang} to ${toLang}. 
@@ -28,11 +23,8 @@ export async function POST(req: NextRequest) {
           content: text,
         },
       ],
-      temperature: 0.3,
-      max_tokens: 500,
-    });
-
-    const content = response.choices[0].message.content || "{}";
+      { temperature: 0.3, maxTokens: 500 }
+    );
     let result;
     try {
       result = JSON.parse(content);

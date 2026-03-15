@@ -1,10 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import OpenAI from "openai";
+import { generateText } from "@/lib/ai-provider";
 import { localizeObject } from "@/lib/lingo";
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
 
 export async function POST(req: NextRequest) {
   try {
@@ -32,14 +28,10 @@ Return a JSON array:
 Generate 5-8 phrases per category. If no category specified, generate phrases for: greetings, directions, food, emergency.
 Respond ONLY with the JSON array.`;
 
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [{ role: "user", content: prompt }],
-      temperature: 0.4,
-      max_tokens: 2000,
-    });
-
-    const content = response.choices[0].message.content || "[]";
+    const content = await generateText(
+      [{ role: "user", content: prompt }],
+      { temperature: 0.4, maxTokens: 2000 }
+    );
     let phrases;
     try {
       phrases = JSON.parse(content);

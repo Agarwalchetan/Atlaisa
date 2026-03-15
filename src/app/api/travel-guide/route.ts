@@ -1,10 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import OpenAI from "openai";
+import { generateText } from "@/lib/ai-provider";
 import { localizeObject } from "@/lib/lingo";
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
 
 export async function POST(req: NextRequest) {
   try {
@@ -55,14 +51,10 @@ Return a JSON object with this exact structure:
 Provide at least 5 must-visit places, 4 foods, 5 cultural tips, 3 transportation tips, 3 hidden gems.
 Respond ONLY with the JSON object, no markdown.`;
 
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [{ role: "user", content: prompt }],
-      temperature: 0.7,
-      max_tokens: 2000,
-    });
-
-    const content = response.choices[0].message.content || "{}";
+    const content = await generateText(
+      [{ role: "user", content: prompt }],
+      { temperature: 0.7, maxTokens: 2000 }
+    );
     
     let guide;
     try {

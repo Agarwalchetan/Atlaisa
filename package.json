@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.41",
+    "@google/generative-ai": "^0.24.1",
     "@lingo.dev/_locales": "^0.3.3",
     "@lingo.dev/_sdk": "^0.16.0",
     "@radix-ui/react-avatar": "^1.1.11",
@@ -27,6 +28,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.36.0",
+    "groq-sdk": "^1.1.1",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.577.0",
     "maplibre-gl": "^5.20.1",
